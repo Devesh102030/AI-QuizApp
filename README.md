@@ -57,22 +57,22 @@ npm run dev
 ## 📸 Screenshots
 
 ### 🏠 Home Page
-![Home](./screenshots/Screenshot 2025-04-06 012302.png)
-![Home](./screenshots/Screenshot 2025-04-06 012322.png)
+![Home](./screenshots/home-1.png)
+![Home](./screenshots/home-2.png)
 
 ### Login Page
-![Login](./screenshots/Screenshot 2025-04-06 012446.png)
+![Login](./screenshots/login.png)
 
 ### Sign Up Page
-![SignUp](./screenshots/Screenshot 2025-04-06 012427.png)
+![SignUp](./screenshots/signup.png)
 
 ### 📊 Dashboard
-![Dashboard](./screenshots/Screenshot 2025-04-06 012243.png)
+![Dashboard](./screenshots/dashboard.png)
 
 ### Quiz Page
-![QuizPage](./screenshots/Screenshot 2025-04-06 012531.png)
-![QuizPage](./screenshots/Screenshot 2025-04-06 012612.png)
-![QuizPage](./screenshots/Screenshot 2025-04-06 012629.png)
+![QuizPage](./screenshots/quiz-1.png)
+![QuizPage](./screenshots/quiz-2.png)
+![QuizPage](./screenshots/quiz-3.png)
 
 ---
 
