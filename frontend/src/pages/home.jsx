@@ -8,23 +8,24 @@ import { useState } from "react";
 
 const LandingPage = () => {
 
+  
+
   const [isLogin,setisLogin] = useState(false);
   const navigate = useNavigate();
 
   const check = ()=>{
-    console.log(1);
     const t = localStorage.getItem('token');
     if(t){
-      navigate('/quiz');
+      navigate('/dashboard');
       setisLogin(true);
     }else{
-      navigate('/signin');
+      navigate('/login');
     }
   }
 
   return (
     <div className="bg-gradient-to-b from-gray-900 to-black min-h-screen flex flex-col justify-between overflow-hidden text-white">
-      {/* Navbar */}
+      
       <nav className="w-full bg-gray-800 shadow-md p-4 flex justify-between items-center fixed top-0 left-0 z-50">
         <Link to="/home">
           <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent font-poppins">
@@ -46,7 +47,7 @@ const LandingPage = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
+      
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -72,7 +73,7 @@ const LandingPage = () => {
         </div>
       </motion.div>
 
-      {/* Features Section */}
+     
       <div className="mt-16 max-w-7xl mx-auto px-6">
         <h2 className="text-3xl font-bold text-cyan-400 text-center mb-8">
           Why Choose Quizzy?
@@ -117,7 +118,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      {/* Call to Action */}
+
       <div className="mt-16 bg-gradient-to-r from-purple-600 to-indigo-600 py-8 text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
           Start your AI-powered quiz journey today!

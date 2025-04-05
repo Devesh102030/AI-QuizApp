@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 
 mongoose.connect("mongodb+srv://deveshparyani17:4aqolemn@admin.sx4z291.mongodb.net/");
 
@@ -31,6 +31,37 @@ const userSchema = mongoose.Schema({
     }
 });
 
-const User = mongoose.model('User',userSchema);
+export const User = mongoose.model('User',userSchema);
 
-export default User;
+const quizSchema = mongoose.Schema({
+    id:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    quizesTaken: {
+        type: Number
+    },
+    averageScore: {
+        type: Number
+    },
+    quizzes:[
+        {
+            topic: {
+                type: String
+            },
+            numques: {
+                type: String
+            },
+            difficulty: {
+                type: String
+            },
+            marks: {
+                type: Number
+            },
+            date: { type: Date, default: Date.now }
+        }
+    ]
+})
+
+export const Quiz = mongoose.model('Quizz',quizSchema);

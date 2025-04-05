@@ -51,24 +51,48 @@ const Quiz = () => {
   };
 
   const calculatemarks = () => {
+    if (!quizData || !quizData.questions) {
+      console.error("quizData or questions missing.");
+      return 0;
+    }
     let temp = 0;
-    for (let i = 0; i < answer.length; i++) {
+    const length = Math.min(answer.length,quizData.questions.length);
+    for (let i = 0; i < length; i++) {
       if (answer[i] === quizData.questions[i].answer) {
         temp++;
       }
     }
     setmarks(temp);
+    return temp;
   };
 
-  const handlequiz = () => {
+  const insertquizdata = async (topic,numques,difficulty,marks)=>{
+    try{
+      const username = localStorage.getItem('username');
+      await axios.post('http://localhost:3000/api/v1/user/insertquizdata',
+        {
+          username,
+          topic,
+          numques,
+          difficulty,
+          marks
+        }
+      )
+    }catch(error){
+      console.log(error);  
+    }
+  }
+
+  const handlequiz = async () => {
     if (currQues < quizData.questions.length - 1) {
       setcurrQues(currQues + 1);
     } else {
-      calculatemarks();
+      const marks = calculatemarks();
       setisfinish(true);
       setcurrQues(0);
       setisattempting(false);
       setisQuizgen(false);
+      await insertquizdata(topic,numques,difficulty,marks);
     }
   };
 
@@ -76,17 +100,17 @@ const Quiz = () => {
     <>
       {/* Navbar */}
       <nav className="w-full bg-gray-800 shadow-md p-4 flex justify-between items-center fixed top-0 left-0 z-50">
-        <Link to="/home">
+        <Link to="/dashboard">
           <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent font-poppins">
             Quizzy
           </h1>
         </Link>
+
       </nav>
 
       {/* Main Content */}
       <div className="bg-gradient-to-b from-gray-900 to-black min-h-screen flex flex-col items-center justify-center text-white px-4 pt-20">
         {isfinish ? (
-          // Render only the finish section when isfinish is true
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -95,7 +119,7 @@ const Quiz = () => {
           >
             <Heading label={`Marks: ${marks}/${numques}`} />
             <button
-              onClick={() => navigate("/home")}
+              onClick={() => navigate("/dashboard")}
               className="mt-4 px-6 py-2 bg-gradient-to-r from-red-500 to-orange-600 hover:from-orange-500 hover:to-red-600 transition-all duration-300 ease-in-out transform hover:scale-105 text-lg font-semibold text-white rounded-lg shadow-lg w-full"
             >
               Go Home
@@ -139,7 +163,6 @@ const Quiz = () => {
 
           </motion.div>
         ) : (
-          // Render the quiz content when isfinish is false
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -156,7 +179,11 @@ const Quiz = () => {
                   <Dropdown
                     value="Select your answer"
                     arr={quizData.questions[currQues].options}
-                    change={(e) => setanswer([...answer, e.target.value])}
+                    change={(e) => {
+                      const updatedAns = [...answer];
+                      updatedAns[currQues] = e.target.value;
+                      setanswer(updatedAns);
+                    }}
                   />
                   <button
                     onClick={handlequiz}

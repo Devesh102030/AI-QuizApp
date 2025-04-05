@@ -23,7 +23,7 @@ const Signup = () => {
         password,
       });
       localStorage.setItem("token", response.data.token);
-      navigate("/quiz");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Signup failed", error);
     }
@@ -41,25 +41,22 @@ const Signup = () => {
       </nav>
 
       <div className="bg-gray-800 p-8 rounded-lg shadow-xl w-full max-w-md">
-        {/* Heading */}
+       
         <div className="text-center mb-6">
           <Heading label="Sign Up" />
         </div>
-
-        {/* Input Fields - Centered */}
+      
         <div className="flex flex-col items-center space-y-4">
           <Text label="First Name" change={(e) => setFirstname(e.target.value)} />
           <Text label="Last Name" change={(e) => setLastname(e.target.value)} />
           <Text label="Username" change={(e) => setUsername(e.target.value)} />
           <Password change={(e) => setPassword(e.target.value)} />
         </div>
-
-        {/* Signup Button - Centered */}
+        
         <div className="flex justify-center mt-6">
           <MyButton label="Sign Up" change={handleSignup} />
         </div>
 
-        {/* Login Link - Centered */}
         <div className="text-center mt-4">
           <p className="text-gray-300">
             Already have an account?{" "}

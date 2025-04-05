@@ -1,7 +1,7 @@
 import express from "express";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import  zod  from "zod";
-import User from "../db.js"; // Add `.js` extension to imports
+import {User,Quiz} from "../db.js"; // Add `.js` extension to imports
 import jwt from "jsonwebtoken";
 import JWT_SECRET  from "../config.js";
 import middleware from "../middleware.js";
@@ -16,7 +16,7 @@ const signupBody = zod.object({
 });
 
 router.post("/signup",async (req,res) => {
-    console.log(req.body);
+    //console.log(req.body);
     
     const {success} = signupBody.safeParse(req.body);
 
@@ -91,6 +91,79 @@ router.post("/signin",async (req,res)=>{
     });
 })
 
+router.post('/getdetails',async (req,res)=>{
+    try{
+        const user = await User.findOne({
+            username: req.body.username
+        });
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const details = await Quiz.findOne({id: user._id});
+
+        return res.status(202).json({
+            user,
+            details
+        });
+    }
+    catch{
+        return res.status(500).json({
+            error: "Server Error"
+        })
+    }
+})
+
+router.post('/insertquizdata', async (req, res) => {
+    try {
+      console.log("Reached");
+  
+      const user = await User.findOne({ username: req.body.username });
+  
+      if (!user) {
+        console.log("User not found");
+        return res.status(404).json({ msg: "User not found" });
+      }
+  
+      const temp = await Quiz.findOne({ id: user._id });
+      if (temp) {
+        temp.quizesTaken += 1;
+        temp.averageScore = ((temp.averageScore * (temp.quizesTaken - 1)) + req.body.marks) / temp.quizesTaken,
+        temp.quizzes.push({
+          topic: req.body.topic,
+          numques: req.body.numques,
+          difficulty: req.body.difficulty,
+          marks: req.body.marks
+        });
+        await temp.save();
+        console.log("Quiz updated");
+      } else {
+        await Quiz.create({
+          id: user._id,
+          quizesTaken: 1,
+          averageScore: req.body.marks,
+          quizzes: [
+            {
+              topic: req.body.topic,
+              numques: req.body.numques,
+              difficulty: req.body.difficulty,
+              marks: req.body.marks
+            }
+          ]
+        });
+        console.log("New quiz document created");
+      }
+  
+      res.status(200).json({ msg: "Quiz data inserted successfully" });
+    } catch (error) {
+      console.error("Error inserting quiz data:", error);
+      res.status(500).json({
+        msg: "Error inserting quiz data"
+      });
+    }
+  });
+  
 
 function getPrompt(topic,numques,difficulty){
     const prompt = `Create a quiz with ${numques} questions on the topic of ${topic}, each question having 4 options, with ${difficulty} difficulty. Return the response in the following format:
@@ -112,9 +185,8 @@ function getPrompt(topic,numques,difficulty){
     return prompt;
 }
 
-router.post("/genratequiz", middleware,async (req, res) => {
-    
-    
+router.post("/genratequiz", middleware,async (req, res) => { 
+    console.log("Reached");
     const genAI = new GoogleGenerativeAI("AIzaSyAU5dtpb83lzs8qeg5PKlarEzJFlqamMY0");
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     try {

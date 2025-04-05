@@ -23,7 +23,8 @@ const Signin = () => {
         }
       );
       localStorage.setItem("token", "Bearer " + response.data.token);
-      navigate("/quiz");
+      localStorage.setItem("username",username);
+      navigate("/dashboard");
     } catch (error) {
       console.error("Signin failed", error);
     }
@@ -31,7 +32,7 @@ const Signin = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
-        {/* Navbar */}
+       
 
       <nav className="w-full bg-gray-800 shadow-md p-4 flex justify-between items-center fixed top-0 left-0 z-50">
         <Link to="/home">
