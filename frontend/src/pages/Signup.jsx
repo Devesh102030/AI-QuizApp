@@ -34,13 +34,13 @@ const Signup = () => {
       
       <nav className="w-full bg-gray-800 shadow-md p-4 flex justify-between items-center fixed top-0 left-0 z-50">
         <Link to="/home">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent font-poppins">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent font-poppins">
             Quizzy
           </h1>
         </Link>
       </nav>
 
-      <div className="bg-gray-800 p-8 rounded-lg shadow-xl w-full max-w-md">
+      <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-10 rounded-3xl shadow-2xl w-full max-w-md text-center mt-20 border border-gray-700 transition-all duration-500 hover:shadow-purple-700/30 w-full max-w-md ">
        
         <div className="text-center mb-6">
           <Heading label="Sign Up" />
@@ -53,8 +53,16 @@ const Signup = () => {
           <Password change={(e) => setPassword(e.target.value)} />
         </div>
         
-        <div className="flex justify-center mt-6">
-          <MyButton label="Sign Up" change={handleSignup} />
+        <div className="mt-8">
+          <button
+            onClick={handleSignup}
+            className="w-40 bg-gray-700 hover:bg-gray-600  
+            hover:text-white text-lg font-semibold py-3 rounded-xl 
+            shadow-md hover:shadow-cyan-500/20 transition-all 
+            duration-300 ease-in-out transform hover:scale-105 border border-gray-600"
+          >
+            Sign Up
+          </button>
         </div>
 
         <div className="text-center mt-4">

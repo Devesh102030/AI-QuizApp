@@ -98,106 +98,142 @@ const Quiz = () => {
 
   return (
     <>
-      {/* Navbar */}
-      <nav className="w-full bg-gray-800 shadow-md p-4 flex justify-between items-center fixed top-0 left-0 z-50">
+      {/* Enhanced Navbar */}
+      <nav className="w-full bg-gray-900 shadow-xl p-4 flex justify-between items-center fixed top-0 left-0 z-50 border-b border-cyan-800/30">
         <Link to="/dashboard">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent font-poppins">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent font-poppins">
             Quizzy
           </h1>
         </Link>
-
       </nav>
-
-      {/* Main Content */}
-      <div className="bg-gradient-to-b from-gray-900 to-black min-h-screen flex flex-col items-center justify-center text-white px-4 pt-20">
+  
+      {/* Enhanced Main Content */}
+      <div className="bg-gradient-to-b from-gray-900 to-black min-h-screen flex flex-col items-center justify-center text-white px-4 pt-24 pb-12">
         {isfinish ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="bg-gray-800 shadow-lg rounded-xl p-8 w-full max-w-md flex flex-col justify-center items-center text-center"
+            className="bg-gray-800/90 backdrop-blur-sm shadow-2xl rounded-2xl p-8 w-full max-w-lg flex flex-col justify-center items-center text-center border border-gray-700"
           >
-            <Heading label={`Marks: ${marks}/${numques}`} />
+            <div className="mb-6 w-full">
+              <Heading label={`Score: ${marks}/${numques}`} />
+              <div className="mt-2 h-3 w-full bg-gray-700 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-gradient-to-r from-cyan-500 to-purple-500" 
+                  style={{ width: `${(marks/numques) * 100}%` }}
+                ></div>
+              </div>
+            </div>
+            
             <button
               onClick={() => navigate("/dashboard")}
-              className="mt-4 px-6 py-2 bg-gradient-to-r from-red-500 to-orange-600 hover:from-orange-500 hover:to-red-600 transition-all duration-300 ease-in-out transform hover:scale-105 text-lg font-semibold text-white rounded-lg shadow-lg w-full"
+              className="mb-8 px-6 py-3 bg-gradient-to-r from-red-500 to-orange-600 hover:from-orange-500 hover:to-red-600 transition-all duration-300 ease-in-out transform hover:scale-105 text-lg font-semibold text-white rounded-lg shadow-lg w-full"
             >
-              Go Home
+              Return to Dashboard
             </button>
-
-            <div className="mt-6 w-full text-left space-y-4">
-            {quizData.questions.map((question,index)=>{
-              const isCorrect = answer[index] === question.answer;
-              return(
-                <div key={index} className="bg-gray-700 p-4 rounded-lg">
-                  <h3>
-                    {index+1}.{question.question};
-                  </h3>
-
-                  <div className="mt-2 space-y-2">
-                    
-                    {question.options.map((opt,optIndex)=>{
-                      let optStyle = "bg-gray-600 text-white";
-
-                      if(opt === question.answer){
-                        optStyle = "bg-green-600 text-white";
-                      }else if(opt === answer[index] && !isCorrect){
-                        optStyle = "bg-red-600 text-white";
-                      }
-
-                      return (
-                        <div
-                          key={optIndex}
-                          className={`p-2 rounded-md ${optStyle}`}
-                        >
-                          {opt}
-                        </div>
-                      );
-                    })}
+  
+            <div className="mt-2 w-full text-left space-y-6">
+              <h2 className="text-xl font-semibold text-cyan-300 mb-2">Question Review</h2>
+              {quizData.questions.map((question, index) => {
+                const isCorrect = answer[index] === question.answer;
+                return (
+                  <div key={index} className="bg-gray-700/80 p-5 rounded-xl shadow-md border border-gray-600">
+                    <h3 className="text-lg font-medium mb-3 text-white">
+                      {index + 1}. {question.question}
+                    </h3>
+  
+                    <div className="mt-3 space-y-2">
+                      {question.options.map((opt, optIndex) => {
+                        let optStyle = "bg-gray-600 text-white border-gray-500";
+  
+                        if (opt === question.answer) {
+                          optStyle = "bg-green-600/90 text-white border-green-500";
+                        } else if (opt === answer[index] && !isCorrect) {
+                          optStyle = "bg-red-600/90 text-white border-red-500";
+                        }
+  
+                        return (
+                          <div
+                            key={optIndex}
+                            className={`p-3 rounded-lg ${optStyle} border shadow-sm transition-all`}
+                          >
+                            {opt}
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                  
-                </div>
-              )
-            })}
+                );
+              })}
             </div>
-
           </motion.div>
         ) : (
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="bg-gray-800 shadow-lg rounded-xl p-8 w-full max-w-md flex flex-col justify-between items-center text-center"
+            className="bg-gray-800/90 backdrop-blur-sm shadow-2xl rounded-2xl p-8 w-full max-w-lg flex flex-col justify-between items-center text-center border border-gray-700"
           >
             {isQuizgen ? (
               isattempting ? (
                 <>
-                  <Heading label={`Question ${currQues + 1}`} />
-                  <p className="text-lg font-medium p-4 bg-gray-700 rounded-lg shadow-md w-full text-gray-200 mt-5 mb-5">
+                  <div className="w-full mb-2">
+                    <div className="flex justify-between items-center mb-2">
+                      <Heading label={`Question ${currQues + 1}`} />
+                      <span className="text-sm font-medium text-gray-400">{currQues + 1}/{quizData.questions.length}</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-gray-700 rounded-full mb-4">
+                      <div 
+                        className="h-full bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full" 
+                        style={{ width: `${((currQues + 1)/quizData.questions.length) * 100}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                  <p className="text-lg font-medium p-5 bg-gray-700/80 rounded-xl shadow-md w-full text-gray-100 mt-2 mb-6 border border-gray-600">
                     {quizData.questions[currQues].question}
                   </p>
-                  <Dropdown
-                    value="Select your answer"
-                    arr={quizData.questions[currQues].options}
-                    change={(e) => {
-                      const updatedAns = [...answer];
-                      updatedAns[currQues] = e.target.value;
-                      setanswer(updatedAns);
-                    }}
-                  />
+                  <div className="w-full mb-6">
+                    <Dropdown
+                      value="Select your answer"
+                      arr={quizData.questions[currQues].options}
+                      change={(e) => {
+                        const updatedAns = [...answer];
+                        updatedAns[currQues] = e.target.value;
+                        setanswer(updatedAns);
+                      }}
+                    />
+                  </div>
                   <button
                     onClick={handlequiz}
-                    className="mt-4 px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-purple-500 hover:to-blue-600 transition-all duration-300 ease-in-out transform hover:scale-105 text-lg font-semibold text-white rounded-lg shadow-lg w-full"
+                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 transition-all duration-300 ease-in-out transform hover:scale-105 text-lg font-semibold text-white rounded-lg shadow-lg w-full"
                   >
-                    {currQues === quizData.questions.length - 1 ? "Finish Quiz" : "Next"}
+                    {currQues === quizData.questions.length - 1 ? "Finish Quiz" : "Next Question"}
                   </button>
                 </>
               ) : (
                 <>
-                  <Heading label="Quiz Ready!" />
+                  <div className="w-full text-center mb-6">
+                    <Heading label="Ready to Begin!" />
+                    <p className="text-gray-300 mt-2">Your quiz has been generated successfully.</p>
+                  </div>
+                  <div className="w-full space-y-4 mb-6">
+                    <div className="bg-gray-700/60 p-4 rounded-lg flex justify-between items-center">
+                      <span className="text-gray-300">Topic:</span>
+                      <span className="font-medium text-cyan-300">{topic}</span>
+                    </div>
+                    <div className="bg-gray-700/60 p-4 rounded-lg flex justify-between items-center">
+                      <span className="text-gray-300">Questions:</span>
+                      <span className="font-medium text-cyan-300">{numques}</span>
+                    </div>
+                    <div className="bg-gray-700/60 p-4 rounded-lg flex justify-between items-center">
+                      <span className="text-gray-300">Difficulty:</span>
+                      <span className="font-medium text-cyan-300">{difficulty}</span>
+                    </div>
+                  </div>
                   <button
                     onClick={() => setisattempting(true)}
-                    className="mt-4 px-6 py-2 bg-gradient-to-r from-green-500 to-teal-600 hover:from-teal-500 hover:to-green-600 transition-all duration-300 ease-in-out transform hover:scale-105 text-lg font-semibold text-white rounded-lg shadow-lg w-full"
+                    className="px-6 py-3 bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 transition-all duration-300 ease-in-out transform hover:scale-105 text-lg font-semibold text-white rounded-lg shadow-lg w-full"
                   >
                     Start Quiz
                   </button>
@@ -205,40 +241,45 @@ const Quiz = () => {
               )
             ) : (
               <>
-                <Heading label="Create Quiz" />
-                <input
-                  type="text"
-                  placeholder="Enter topic"
-                  onChange={(e) => settopic(e.target.value)}
-                  className="w-full mb-4 mt-4 p-3 border border-gray-600 bg-gray-800 text-white rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-300 transition"
-                />
-
-                <Dropdown
-                  value="Number of questions"
-                  arr={["5", "10"]}
-                  change={(e) => setnumques(e.target.value)}
-                  className="mb-1"
-                />
-                <Dropdown
-                  value="Difficulty"
-                  arr={["Easy", "Medium", "Hard"]}
-                  change={(e) => setdifficulty(e.target.value)}
-                  className="mb-2"
-                />
-                <button
-                  onClick={genratequiz}
-                  className="mt-4 px-6 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-indigo-500 hover:to-blue-600 transition-all duration-300 ease-in-out transform hover:scale-105 text-lg font-semibold text-white rounded-lg shadow-lg w-full"
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <span className="flex items-center gap-2">
-                      <CircularProgress size={20} color="inherit" />
-                      Generating...
-                    </span>
-                  ) : (
-                    "Generate"
-                  )}
-                </button>
+                <div className="w-full text-center mb-6">
+                  <Heading label="Create Quiz" />
+                  <p className="text-gray-300 mt-1">Customize your quiz settings below</p>
+                </div>
+                <div className="w-full space-y-5">
+                  <input
+                    type="text"
+                    placeholder="Enter topic"
+                    onChange={(e) => settopic(e.target.value)}
+                    className="w-full p-4 border border-gray-600 bg-gray-700/70 text-white rounded-lg focus:border-cyan-500 focus:ring focus:ring-cyan-300/30 transition placeholder-gray-400"
+                  />
+  
+                  <Dropdown
+                    value="Number of questions"
+                    arr={["5", "10"]}
+                    change={(e) => setnumques(e.target.value)}
+                    className="mb-1"
+                  />
+                  <Dropdown
+                    value="Difficulty"
+                    arr={["Easy", "Medium", "Hard"]}
+                    change={(e) => setdifficulty(e.target.value)}
+                    className="mb-2"
+                  />
+                  <button
+                    onClick={genratequiz}
+                    className="mt-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 transition-all duration-300 ease-in-out transform hover:scale-105 text-lg font-semibold text-white rounded-lg shadow-lg w-full"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <CircularProgress size={20} color="inherit" />
+                        Generating Quiz...
+                      </span>
+                    ) : (
+                      "Generate Quiz"
+                    )}
+                  </button>
+                </div>
               </>
             )}
           </motion.div>
@@ -247,5 +288,7 @@ const Quiz = () => {
     </>
   );
 };
+
+
 
 export default Quiz;
