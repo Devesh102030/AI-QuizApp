@@ -132,10 +132,10 @@ function QuizHistory({details}){
               </div>
               {details.quizzes.map((item, index) => (
                 <div key={index} className="flex justify-between bg-gray-700 p-4 rounded-lg shadow-inner">
-                  <div className="w-1/5">{item.topic}</div>
-                  <div className="w-1/5">{item.numques} Qs</div>
-                  <div className="w-1/5 capitalize">{item.difficulty}</div>
-                  <div className="w-1/5">{item.marks}</div>
+                  <div className="w-1/5">{item.topic.toUpperCase()}</div>
+                  <div className="w-1/5 px-5">{item.numques}</div>
+                  <div className="w-1/5">{item.difficulty}</div>
+                  <div className="w-1/5 px-5">{item.marks}</div>
                   <div className="w-1/5">{item.date}</div>
                 </div>
               ))}
