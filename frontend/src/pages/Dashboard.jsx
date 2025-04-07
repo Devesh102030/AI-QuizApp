@@ -111,7 +111,7 @@ function QuickStats({details}){
           </div>
           <div className="text-center">
             <p className="text-xl text-gray-400 mb-1">Average Score</p>
-            <p className="text-4xl font-bold text-cyan-400">{details?.averageScore || "0"}</p>
+            <p className="text-4xl font-bold text-cyan-400">{Number(details?.averageScore.toFixed(2)) || "0"}</p>
           </div>
     </div>
   )
