@@ -20,7 +20,7 @@ const Dashboard = () => {
       const username = localStorage.getItem('username');
       if (!username) return;
       try {
-        const res = await axios.post('http://localhost:3000/api/v1/user/getdetails', { username });
+        const res = await axios.post('https://ai-quizapp.onrender.com/api/v1/user/getdetails', { username });
         setuser(res.data.user);
         setdetails(res.data.details);
       } catch (error) {

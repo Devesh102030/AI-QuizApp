@@ -37,7 +37,7 @@ const Quiz = () => {
     setloading(true);
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/user/genratequiz",
+        "https://ai-quizapp.onrender.com/api/v1/user/genratequiz",
         { topic, numques, difficulty },
         { headers: { Authorization: token } }
       );
@@ -69,7 +69,7 @@ const Quiz = () => {
   const insertquizdata = async (topic,numques,difficulty,marks)=>{
     try{
       const username = localStorage.getItem('username');
-      await axios.post('http://localhost:3000/api/v1/user/insertquizdata',
+      await axios.post('https://ai-quizapp.onrender.com/api/v1/user/insertquizdata',
         {
           username,
           topic,
