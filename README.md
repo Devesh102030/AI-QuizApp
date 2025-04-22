@@ -1,20 +1,20 @@
-# 🎓 AI Quiz App
+# Quizzy
 
-An AI-powered quiz application that generates dynamic questions based on user preferences and provides real-time scoring.
-
----
-
-## 🚀 Features
-
-- ✅ AI-generated quiz questions using Gemini API  
-- ✅ Multiple-choice questions with real-time feedback  
-- ✅ Score tracking and countdown timer  
-- ✅ Responsive UI for both mobile and desktop  
-- ✅ User authentication and quiz history tracking
+A full-stack AI-powered quiz system that dynamically generates questions using the Gemini API based on user preferences, implements JWT-based authentication, real-time score tracking, and provides a responsive UI across devices.
 
 ---
 
-## 🧠 Tech Stack
+##  Features
+
+-  AI-generated quiz questions using Gemini API  
+-  Multiple-choice questions with real-time feedback  
+-  Score tracking and countdown timer  
+-  Responsive UI for both mobile and desktop  
+-  User authentication and quiz history tracking
+
+---
+
+##  Tech Stack
 
 - **Frontend:** React, Tailwind CSS  
 - **Backend:** Node.js, Express  
@@ -23,7 +23,7 @@ An AI-powered quiz application that generates dynamic questions based on user pr
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 AI-QuizApp/
 ├── frontend/         # React frontend
 │   └── npm run dev   # Start the frontend
@@ -54,27 +54,29 @@ npm install
 npm run dev
 
 ```
-## 📸 Screenshots
+##  Screenshots
 
-### 🏠 Home Page
-![Home](./screenshots/home-1.png)
-![Home](./screenshots/home-2.png)
+### Home Page
+![Home](./screenshots/1.png)
+![Home](./screenshots/2.png)
 
 ### Login Page
-![Login](./screenshots/login.png)
+![Login](./screenshots/3.png)
 
 ### Sign Up Page
-![SignUp](./screenshots/signup.png)
+![SignUp](./screenshots/4.png)
 
-### 📊 Dashboard
-![Dashboard](./screenshots/dashboard.png)
+### Dashboard
+![Dashboard](./screenshots/5.png)
+![Dashboard](./screenshots/6.png)
+![Dashboard](./screenshots/7.png)
 
 ### Quiz Page
-![QuizPage](./screenshots/quiz-1.png)
-![QuizPage](./screenshots/quiz-2.png)
-![QuizPage](./screenshots/quiz-3.png)
-
+![QuizPage](./screenshots/8.png)
+![QuizPage](./screenshots/9.png)
+![QuizPage](./screenshots/10.png)
+![QuizPage](./screenshots/11.png)
 ---
 
 Contact
-📧 Email: deveshparyani17@gmail.com
+Email: deveshparyani17@gmail.com
