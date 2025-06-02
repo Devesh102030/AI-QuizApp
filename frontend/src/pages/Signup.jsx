@@ -6,6 +6,7 @@ import axios from "axios";
 import { Password } from "../components/Password";
 import { useNavigate } from "react-router-dom";
 import {Link} from "react-router-dom";
+import { BACKEND_URL } from "../confing";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -16,15 +17,19 @@ const Signup = () => {
 
   const handleSignup = async () => {
     try {
-      const response = await axios.post("https://ai-quizapp.onrender.com/api/v1/user/signup", {
+      const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, {
         username,
         firstName: firstname,
         lastName: lastname,
         password,
+      },{
+        withCredentials: true
       });
-      localStorage.setItem("token", response.data.token);
+      //localStorage.setItem("token", response.data.token);
+      //localStorage.setItem("username",username);
       navigate("/dashboard");
     } catch (error) {
+      alert("Error Signing Up");
       console.error("Signup failed", error);
     }
   };

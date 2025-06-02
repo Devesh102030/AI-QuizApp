@@ -5,20 +5,32 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import Dropdown from "../components/Dropdown";
 import { Heading } from "../components/Heading";
+import { BACKEND_URL } from "../confing";
 
 const Quiz = () => {
   const [isauthenticated, setisauthenticated] = useState(null);
-  const token = localStorage.getItem("token");
+  //const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
+  async function check (){
+    const res = await axios.get(`${BACKEND_URL}/api/v1/user/me`,{
+      withCredentials: true
+    });
+    if(res){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   useEffect(() => {
-    if (!token) {
+    if (!check) {
       setisauthenticated(false);
       navigate("/login");
     } else {
       setisauthenticated(true);
     }
-  }, [token, navigate]);
+  }, [navigate]);
 
   const [quizData, setquizData] = useState(null);
   const [currQues, setcurrQues] = useState(0);
@@ -37,9 +49,11 @@ const Quiz = () => {
     setloading(true);
     try {
       const response = await axios.post(
-        "https://ai-quizapp.onrender.com/api/v1/user/genratequiz",
-        { topic, numques, difficulty },
-        { headers: { Authorization: token } }
+        `${BACKEND_URL}/api/v1/user/genratequiz`,
+        { topic, numques, difficulty }, 
+        {
+          withCredentials: true,    
+        }
       );
       setquizData(response.data.quiz);
       setisQuizgen(true);
@@ -68,14 +82,14 @@ const Quiz = () => {
 
   const insertquizdata = async (topic,numques,difficulty,marks)=>{
     try{
-      const username = localStorage.getItem('username');
-      await axios.post('https://ai-quizapp.onrender.com/api/v1/user/insertquizdata',
+      await axios.post(`${BACKEND_URL}/api/v1/user/insertquizdata`,
         {
-          username,
           topic,
           numques,
           difficulty,
           marks
+        },{
+          withCredentials: true
         }
       )
     }catch(error){

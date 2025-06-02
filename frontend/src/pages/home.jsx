@@ -6,22 +6,40 @@ import quizAnimation from "../assets/quiz-animation.json"; // Example Lottie ani
 import { useState } from "react";
 import { LogIn } from "lucide-react";
 import {Brain, Target, BarChart3, Trophy} from "lucide-react";
-
+import { BACKEND_URL } from "../confing";
+import axios from "axios";
 
 const LandingPage = () => {
-
-  
 
   const [isLogin,setisLogin] = useState(false);
   const navigate = useNavigate();
 
-  const check = ()=>{
-    const t = localStorage.getItem('token');
-    if(t){
+  // const check = ()=>{
+  //   const t = localStorage.getItem('token');
+  //   if(t){
+  //     navigate('/dashboard');
+  //     setisLogin(true);
+  //   }else{
+  //     navigate('/login');
+  //   }
+  // }
+
+  async function check (){
+    try{
+      const res = await axios.get(`${BACKEND_URL}/api/v1/user/me`,{
+        withCredentials: true
+      });
+      console.log(res);
       navigate('/dashboard');
       setisLogin(true);
-    }else{
       navigate('/login');
+    }
+    catch(error){
+      if (error.response && error.response.status === 401) {
+        navigate('/login');
+      } else {
+        console.error("Unexpected error:", error);
+      }
     }
   }
 

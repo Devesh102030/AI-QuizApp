@@ -5,6 +5,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import DistributionChart from "../components/Charts";
 import { LogOut } from 'lucide-react';
+import { BACKEND_URL } from "../confing";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -12,23 +13,32 @@ const Dashboard = () => {
   const [user, setuser] = useState(null);
 
   useEffect(() => {
-    const t = localStorage.getItem('token');
-    if (!t) {
-      navigate("/");
-    }
-    const fetchDetails = async () => {
-      const username = localStorage.getItem('username');
-      if (!username) return;
+    const haveTokenAndFetchDetails = async () => {
       try {
-        const res = await axios.post('https://ai-quizapp.onrender.com/api/v1/user/getdetails', { username });
-        setuser(res.data.user);
-        setdetails(res.data.details);
-      } catch (error) {
-        console.log("Error fetching details: ", error);
+        const res = await axios.get(`${BACKEND_URL}/api/v1/user/me`, {
+          withCredentials: true,
+        });
+
+        const username = res.data.username;
+
+        if (!username) return;
+
+        const detailsRes = await axios.post(`${BACKEND_URL}/api/v1/user/getdetails`, { username });
+        
+        setuser(detailsRes.data.user);
+        setdetails(detailsRes.data.details);
+      } catch (err) {
+        if (err.response && err.response.status === 401) {
+          navigate("/login");
+        } else {
+          console.log("Auth failed:", err);
+        }
       }
     };
-    fetchDetails();
+
+    haveTokenAndFetchDetails();
   }, []);
+
 
   return (
     <div className="bg-gradient-to-b from-gray-900 to-black min-h-screen text-white font-poppins">
@@ -78,10 +88,15 @@ const Dashboard = () => {
 
 function Navbar(){
   const navigate = useNavigate();
-  const logout = () => {
-    localStorage.removeItem('token');
+  const logout = async () => {
+    // localStorage.removeItem('token');
     localStorage.removeItem('username');
-    navigate('/');
+    const res = await axios.post(`${BACKEND_URL}/api/v1/user/logout`);
+    if(res){
+      navigate('/');
+    }else{
+      alert("Error loging out");
+    }
   };
   return(
     <nav className="w-full bg-gray-800 shadow-lg p-4 flex justify-between items-center fixed top-0 left-0 z-50">

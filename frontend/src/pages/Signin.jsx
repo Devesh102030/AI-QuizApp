@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
+import { BACKEND_URL } from "../confing";
 
 const Signin = () => {
   const [username, setUsername] = useState("");
@@ -16,16 +17,22 @@ const Signin = () => {
   const signinbutton = async () => {
     try {
       const response = await axios.post(
-        "https://ai-quizapp.onrender.com/api/v1/user/signin",
+        `${BACKEND_URL}/api/v1/user/signin`,
         {
           username: username,
           password: password,
+        },
+        {
+          withCredentials: true
         }
       );
-      localStorage.setItem("token", "Bearer " + response.data.token);
-      localStorage.setItem("username",username);
+      // localStorage.setItem("token", "Bearer " + response.data.token);
+      //localStorage.setItem("username",username);
       navigate("/dashboard");
     } catch (error) {
+      if(error.response == 404){
+        alert("User not found");
+      }
       console.error("Signin failed", error);
     }
   };
