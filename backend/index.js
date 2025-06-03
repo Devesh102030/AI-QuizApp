@@ -8,7 +8,7 @@ const app = express();
 app.use(cookieParser());
 app.use(cors({
     credentials: true,
-    origin: "http://localhost:5173"
+    origin: "https://quizzy-black-nine.vercel.app"
 }));
 app.use(express.json());
 

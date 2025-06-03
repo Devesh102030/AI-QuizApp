@@ -49,7 +49,12 @@ router.post("/signup",async (req,res) => {
         userId
     },JWT_SECRET);
 
-    res.cookie("token",token);
+    res.cookie("token", token, {
+        httpOnly: true,
+        sameSite: 'None',  // allows cross-origin usage
+        secure: true       // required when sameSite is 'None'
+    });
+
 
     res.status(200).json({
         message: "User created successfully",
@@ -89,7 +94,11 @@ router.post("/signin",async (req,res)=>{
         userId
     },JWT_SECRET);
 
-    res.cookie("token",token);
+    res.cookie("token", token, {
+        httpOnly: true,
+        sameSite: 'None',  // allows cross-origin usage
+        secure: true       // required when sameSite is 'None'
+    });
 
     return res.status(200).json({
         message: "Signin successfully"
